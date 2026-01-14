@@ -8,7 +8,8 @@
       {
         "ignore": [
           "-webkit-text-size-adjust",
-          "user-select"
+          "user-select",
+          "backdrop-filter"
         ]
       }
     ]
