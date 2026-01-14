@@ -1,4 +1,4 @@
-// components/ProductCard.jsx - Update deskripsi
+// components/ProductCard.jsx
 import { Link } from 'react-router-dom';
 import { useCart, useWishlist } from '../context/CartContext';
 import { FiShoppingCart, FiHeart, FiStar, FiPercent } from 'react-icons/fi';

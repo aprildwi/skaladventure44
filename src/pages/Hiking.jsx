@@ -1,4 +1,4 @@
-// pages/Hiking.jsx - Hanya produk hiking
+// pages/Hiking.jsx
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';

@@ -1,3 +1,4 @@
+// pages/Home.jsx
 import Banner from '../components/Banner';
 import ProductCard from '../components/ProductCard';
 import { Link } from 'react-router-dom';

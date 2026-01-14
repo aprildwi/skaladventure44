@@ -1,4 +1,4 @@
-// pages/ProductList.jsx - Halaman semua produk
+// pages/ProductList.jsx
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';

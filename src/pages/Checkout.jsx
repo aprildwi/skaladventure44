@@ -1,3 +1,4 @@
+// pages/Checkout.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiLock, FiCreditCard, FiUser, FiMapPin, FiCheck } from 'react-icons/fi';

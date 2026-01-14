@@ -1,4 +1,4 @@
-// pages/ProductDetail.jsx - UPDATE UNTUK TOMBOL CHECKOUT MOBILE
+// pages/ProductDetail.jsx
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useCart, useWishlist } from '../context/CartContext';

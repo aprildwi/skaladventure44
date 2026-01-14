@@ -1,3 +1,4 @@
+// components/Footer.jsx
 import { Link } from 'react-router-dom';
 import { FiFacebook, FiTwitter, FiInstagram, FiYoutube, FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
 

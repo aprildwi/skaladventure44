@@ -1,4 +1,4 @@
-// components/Header.jsx - UPDATE LOGO UNTUK MOBILE
+// components/Header.jsx
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { 
@@ -13,7 +13,9 @@ import {
   FiX,
   FiCompass,
   FiLogIn,
-  FiLogOut
+  FiLogOut,
+  FiPackage,
+  FiBarChart2
 } from 'react-icons/fi';
 import { GiMountainClimbing, GiCampingTent } from 'react-icons/gi';
 import { useCart, useWishlist } from '../context/CartContext';
@@ -31,13 +33,26 @@ function Header() {
   const { wishlistItems } = useWishlist();
   const { user, logout, isAdmin } = useAuth();
 
-  const navLinks = [
-    { path: '/', label: 'Home', icon: <FiHome /> },
-    { path: '/products', label: 'Products', icon: <FiShoppingBag /> },
-    { path: '/camping', label: 'Camping', icon: <GiCampingTent /> },
-    { path: '/hiking', label: 'Hiking', icon: <GiMountainClimbing /> },
-    { path: '/sale', label: 'Sale', icon: <FiTag /> },
-  ];
+  const getNavLinks = () => {
+    if (isAdmin) {
+      return [
+        { path: '/admin', label: 'Dashboard', icon: <FiHome /> },
+        { path: '/admin/products', label: 'Products', icon: <FiShoppingBag /> },
+        { path: '/admin/orders', label: 'Orders', icon: <FiPackage /> },
+        { path: '/admin/reports', label: 'Reports', icon: <FiBarChart2 /> },
+      ];
+    } else {
+      return [
+        { path: '/', label: 'Home', icon: <FiHome /> },
+        { path: '/products', label: 'Products', icon: <FiShoppingBag /> },
+        { path: '/camping', label: 'Camping', icon: <GiCampingTent /> },
+        { path: '/hiking', label: 'Hiking', icon: <GiMountainClimbing /> },
+        { path: '/sale', label: 'Sale', icon: <FiTag /> }
+      ];
+    }
+  }
+
+  const navLinks = getNavLinks();
 
   const isActive = (path) => location.pathname === path;
 
@@ -98,15 +113,18 @@ function Header() {
     <>
       <header className="header">
         <div className="header-container">
-          {/* Logo - UPDATE: Hanya tampilkan teks di desktop */}
-          <Link to="/" className="logo" aria-label="SkalAdventure Home">
+          {/* Logo */}
+          <Link to={isAdmin ? "/admin" : "/"} className="logo" aria-label="SkalAdventure Home">
             <div className="logo-icon" aria-hidden="true">
               <span>SA</span>
             </div>
-            {/* Teks hanya tampil di desktop */}
             <div className="logo-text-container">
-              <div className="logo-text">SkalAdventure</div>
-              <div className="logo-tagline">Explore The Wild</div>
+              <div className="logo-text">
+                {isAdmin ? "Admin Panel" : "SkalAdventure"}
+              </div>
+              <div className="logo-tagline">
+                {isAdmin ? "Management System" : "Explore The Wild"}
+              </div>
             </div>
           </Link>
 
@@ -201,32 +219,42 @@ function Header() {
                     )}
                   </Link>
                   
-                  {/* Hanya tampilkan wishlist jika BUKAN admin */}
-                  {!isAdmin && (
-                    <Link 
-                      to="/wishlist" 
+                  {/* Logout button untuk admin */}
+                  {isAdmin && (
+                    <button 
+                      onClick={handleLogout}
                       className="icon-button"
-                      aria-label="Wishlist"
+                      aria-label="Logout"
                     >
-                      <FiHeart />
-                      {wishlistItems.length > 0 && (
-                        <span className="icon-badge">{wishlistItems.length}</span>
-                      )}
-                    </Link>
+                      <FiLogOut />
+                    </button>
                   )}
                   
-                  {/* Hanya tampilkan cart jika BUKAN admin */}
+                  {/* Cart dan Wishlist hanya untuk non-admin */}
                   {!isAdmin && (
-                    <Link 
-                      to="/cart" 
-                      className="icon-button"
-                      aria-label="Shopping cart"
-                    >
-                      <FiShoppingCart />
-                      {getCartTotalItems() > 0 && (
-                        <span className="icon-badge">{getCartTotalItems()}</span>
-                      )}
-                    </Link>
+                    <>
+                      <Link 
+                        to="/wishlist" 
+                        className="icon-button"
+                        aria-label="Wishlist"
+                      >
+                        <FiHeart />
+                        {wishlistItems.length > 0 && (
+                          <span className="icon-badge">{wishlistItems.length}</span>
+                        )}
+                      </Link>
+                      
+                      <Link 
+                        to="/cart" 
+                        className="icon-button"
+                        aria-label="Shopping cart"
+                      >
+                        <FiShoppingCart />
+                        {getCartTotalItems() > 0 && (
+                          <span className="icon-badge">{getCartTotalItems()}</span>
+                        )}
+                      </Link>
+                    </>
                   )}
                 </>
               ) : (
@@ -339,7 +367,9 @@ function Header() {
             </div>
             {/* Di mobile drawer juga hanya logo */}
             <div className="logo-text-container">
-              <div className="logo-text">SkalAdventure</div>
+              <div className="logo-text">
+                {isAdmin ? "Admin Panel" : "SkalAdventure"}
+              </div>
             </div>
           </div>
           <button 
@@ -352,28 +382,6 @@ function Header() {
         </div>
 
         <div className="drawer-content">
-          {/* Quick Search in Drawer */}
-          <div className="drawer-search">
-            <div className="drawer-search-wrapper">
-              <input
-                type="text"
-                placeholder="Search adventure gear..."
-                className="drawer-search-input"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={handleKeyPress}
-                aria-label="Search products"
-              />
-              <button
-                type="button"
-                className="drawer-search-btn"
-                onClick={handleSearchSubmit}
-              >
-                <FiSearch />
-              </button>
-            </div>
-          </div>
-
           {/* Navigation Links */}
           <nav className="drawer-nav" aria-label="Mobile navigation">
             {navLinks.map((link) => (
@@ -415,32 +423,38 @@ function Header() {
                   <FiLogIn /> Login / Register
                 </Link>
               )}
-              <Link to="/wishlist" className="drawer-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                <FiHeart /> Wishlist {wishlistItems.length > 0 && `(${wishlistItems.length})`}
-              </Link>
-              <Link to="/cart" className="drawer-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                <FiShoppingCart /> Cart {getCartTotalItems() > 0 && `(${getCartTotalItems()})`}
-              </Link>
+              {!isAdmin && (
+                <>
+                  <Link to="/wishlist" className="drawer-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                    <FiHeart /> Wishlist {wishlistItems.length > 0 && `(${wishlistItems.length})`}
+                  </Link>
+                  <Link to="/cart" className="drawer-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                    <FiShoppingCart /> Cart {getCartTotalItems() > 0 && `(${getCartTotalItems()})`}
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 
           {/* Quick Actions */}
-          <div className="drawer-actions">
-            <Link 
-              to="/products" 
-              className="btn btn-primary btn-full"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <FiCompass /> Browse All Gear
-            </Link>
-            <Link 
-              to="/sale" 
-              className="btn btn-outline btn-full"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <FiTag /> View Sale Items
-            </Link>
-          </div>
+          {!isAdmin && (
+            <div className="drawer-actions">
+              <Link 
+                to="/products" 
+                className="btn btn-primary btn-full"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <FiCompass /> Browse All Gear
+              </Link>
+              <Link 
+                to="/sale" 
+                className="btn btn-outline btn-full"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <FiTag /> View Sale Items
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </>

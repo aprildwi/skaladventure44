@@ -14,12 +14,12 @@ export const AuthProvider = ({ children }) => {
   const users = [
     {
       id: 1,
-      email: 'user@example.com',
+      email: 'user@gmail.com',
       password: 'user123',
-      name: 'John Adventurer',
+      name: 'Aprilia Dwi',
       role: 'user',
       phone: '+62 812 3456 7890',
-      address: 'Jl. Adventure No. 123, Tangerang',
+      address: 'Jl. Alam jaya No. 123, Tangerang',
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John'
     },
     {
@@ -89,7 +89,8 @@ export const AuthProvider = ({ children }) => {
       loading,
       login,
       logout,
-      updateProfile
+      updateProfile,
+      users
     }}>
       {children}
     </AuthContext.Provider>

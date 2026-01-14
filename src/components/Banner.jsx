@@ -1,3 +1,4 @@
+// components/Banner.jsx
 import { Link } from 'react-router-dom';
 import { FiArrowRight, FiMap, FiCompass } from 'react-icons/fi';
 

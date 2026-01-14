@@ -1,3 +1,4 @@
+// components/CartItem.jsx
 import { useState } from 'react';
 import { FiTrash, FiMinus, FiPlus } from 'react-icons/fi';
 

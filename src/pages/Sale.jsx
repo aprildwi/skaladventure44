@@ -1,4 +1,4 @@
-// pages/Sale.jsx - Hanya produk yang sale: true
+// pages/Sale.jsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';

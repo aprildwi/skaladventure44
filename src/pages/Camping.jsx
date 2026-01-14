@@ -1,4 +1,4 @@
-// pages/Camping.jsx - Hanya produk camping
+// pages/Camping.jsx
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
