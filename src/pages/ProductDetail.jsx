@@ -1,13 +1,16 @@
-// pages/ProductDetail.jsx
-import { useParams, useNavigate } from 'react-router-dom';
+// pages/ProductDetail.jsx - UPDATE LENGKAP
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { useCart, useWishlist } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext'; // TAMBAHKAN IMPORT INI
 import { FiShoppingCart, FiTruck, FiShield, FiArrowLeft, FiHeart, FiStar, FiCreditCard } from 'react-icons/fi';
 import productsData from '../data/products.json';
 
 function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation(); // TAMBAHKAN INI
+  const { user } = useAuth(); // TAMBAHKAN INI
   const product = productsData.find(p => p.id === parseInt(id));
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -179,41 +182,6 @@ function ProductDetail() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Mobile Bottom Action Bar - BARU */}
-        <div className="mobile-product-actions">
-          <div className="mobile-quantity-selector">
-            <button 
-              onClick={() => setQuantity(q => Math.max(1, q - 1))}
-              className="mobile-quantity-btn"
-              aria-label="Decrease quantity"
-            >
-              -
-            </button>
-            <span className="mobile-quantity">{quantity}</span>
-            <button 
-              onClick={() => setQuantity(q => q + 1)}
-              className="mobile-quantity-btn"
-              aria-label="Increase quantity"
-            >
-              +
-            </button>
-          </div>
-          
-          <div className="mobile-action-buttons">
-            <button onClick={handleAddToCart} className="btn-mobile-cart">
-              <FiShoppingCart /> Cart
-            </button>
-            <button 
-              onClick={handleCheckout} 
-              className="btn-mobile-checkout"
-              disabled={!user}
-              title={!user ? 'Please login to checkout' : ''}
-            >
-              <FiCreditCard /> Checkout
-            </button>
           </div>
         </div>
 
