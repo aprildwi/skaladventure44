@@ -116,6 +116,9 @@ function AdminProducts() {
             <button onClick={handleAddNew} className="btn btn-primary">
               <FiPlus /> Add New Product
             </button>
+            <button onClick={() => navigate('/admin/products/new')} className="btn btn-primary">
+            <FiPlus /> Add New Product
+            </button>
           </div>
         </div>
 
@@ -273,19 +276,19 @@ function AdminProducts() {
                       <td>
                         <div className="action-buttons">
                           <button 
-                            onClick={() => handleEdit(product.id)}
+                            onClick={() => navigate(`/admin/products/edit/${product.id}`)} // PERBAIKI INI
                             className="btn-edit"
                             title="Edit"
-                          >
+                            >
                             <FiEdit2 />
-                          </button>
-                          <button 
+                            </button>
+                            <button 
                             onClick={() => confirmDelete(product)}
                             className="btn-delete"
                             title="Delete"
-                          >
+                            >
                             <FiTrash2 />
-                          </button>
+                            </button>
                         </div>
                       </td>
                     </tr>

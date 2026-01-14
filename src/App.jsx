@@ -178,6 +178,22 @@ function App() {
                   </AdminLayout>
                 </ProtectedRoute>
               } />
+
+              <Route path="/admin/products/new" element={
+                <ProtectedRoute requireAdmin>
+                  <AdminLayout>
+                    <ProductForm />
+                  </AdminLayout>
+                </ProtectedRoute>
+              } />
+
+              <Route path="/admin/products/edit/:id" element={
+                <ProtectedRoute requireAdmin>
+                  <AdminLayout>
+                    <ProductForm />
+                  </AdminLayout>
+                </ProtectedRoute>
+              } />
               
               <Route path="/admin/orders" element={
                 <ProtectedRoute requireAdmin>

@@ -1,11 +1,13 @@
 // pages/Cart.jsx
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext'; // TAMBAHKAN INI
 import CartItem from '../components/CartItem';
-import { FiShoppingBag, FiArrowLeft, FiTrash2 } from 'react-icons/fi';
+import { FiShoppingBag, FiArrowLeft, FiTrash2, FiLock } from 'react-icons/fi';
 
 function Cart() {
   const navigate = useNavigate();
+  const { user } = useAuth(); // TAMBAHKAN INI
   const { 
     cartItems, 
     removeFromCart, 
@@ -18,6 +20,17 @@ function Cart() {
   const shipping = subtotal > 500000 ? 0 : 25000;
   const tax = subtotal * 0.1;
   const total = subtotal + shipping + tax;
+
+  const handleCheckout = () => {
+    if (!user) {
+      // Redirect to login with return URL
+      navigate('/login', { 
+        state: { from: '/checkout' } 
+      });
+    } else {
+      navigate('/checkout');
+    }
+  };
 
   return (
     <div className="cart-page">
@@ -93,11 +106,30 @@ function Cart() {
                 )}
               </div>
               
+              {/* TAMBAHKAN INFORMASI LOGIN */}
+              {!user && (
+                <div className="login-reminder">
+                  <FiLock />
+                  <p>Please login to proceed with checkout</p>
+                  <Link to="/login" className="btn-login-prompt">
+                    Login / Register
+                  </Link>
+                </div>
+              )}
+              
               <button 
-                onClick={() => navigate('/checkout')}
-                className="btn-checkout"
+                onClick={handleCheckout}
+                className={`btn-checkout ${!user ? 'disabled' : ''}`}
+                disabled={!user}
+                title={!user ? 'Please login to checkout' : ''}
               >
-                Proceed to Checkout
+                {!user ? (
+                  <>
+                    <FiLock /> Login to Checkout
+                  </>
+                ) : (
+                  'Proceed to Checkout'
+                )}
               </button>
               
               <div className="payment-methods">

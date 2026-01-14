@@ -35,11 +35,26 @@ function ProductDetail() {
   };
 
   const handleBuyNow = () => {
+    if (!user) {
+      navigate('/login', { 
+        state: { from: location.pathname } 
+      });
+      return;
+    }
+    
     addToCart(product, quantity);
     navigate('/cart');
   };
 
   const handleCheckout = () => {
+    if (!user) {
+      // Redirect to login
+      navigate('/login', { 
+        state: { from: location.pathname } 
+      });
+      return;
+    }
+  
     addToCart(product, quantity);
     navigate('/checkout');
   };
@@ -191,7 +206,12 @@ function ProductDetail() {
             <button onClick={handleAddToCart} className="btn-mobile-cart">
               <FiShoppingCart /> Cart
             </button>
-            <button onClick={handleCheckout} className="btn-mobile-checkout">
+            <button 
+              onClick={handleCheckout} 
+              className="btn-mobile-checkout"
+              disabled={!user}
+              title={!user ? 'Please login to checkout' : ''}
+            >
               <FiCreditCard /> Checkout
             </button>
           </div>

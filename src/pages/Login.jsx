@@ -23,7 +23,9 @@ function Login() {
     try {
       const result = await login(email, password);
       if (result.success) {
-        // Redirect based on role
+        // Redirect based on role AND previous location
+        const from = location.state?.from || '/';
+        
         if (result.user.role === 'admin') {
           navigate('/admin');
         } else {
